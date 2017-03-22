@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuyun.data.coupon.transfer.dao.IGoodsDao">
+
+
+    <select id="getGoodsList" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+        ORDER BY ctime DESC
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="getGoodsByCtime" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+        WHERE ctime = #{ctime}
+    </select>
+
+    <select id="getCtimeBatch" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+        WHERE ctime > #{ctime}
+        ORDER BY ctime
+        limit #{limit}
+    </select>
+
+    <select id="getIdBatch" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+        WHERE id > #{id}
+        ORDER BY id
+        limit #{limit}
+    </select>
+
+    <select id="getAbsentGoods" resultType="Goods">
+        <!--SELECT *-->
+        <!--FROM tk_goods-->
+        <!--WHERE nick is null-->
+          <!--and id >  #{id}-->
+        <!--ORDER BY id-->
+        <!--limit 200-->
+        SELECT *
+        FROM tk_goods
+        WHERE smallurl is null
+    </select>
+
+    <update id="updateAbsentFields">
+        UPDATE tk_goods
+        SET
+        nick =  #{nick},
+        sellerid =  #{sellerid},
+        volume =  #{volume},
+        usertype =  #{usertype},
+        provcity =  #{provcity},
+        smallurl = #{smallurl}
+        where id = #{id}
+    </update>
+
+
+
+
+
+    <update id="updateSmallUrl">
+        UPDATE tk_goods
+        SET
+        smallurl = #{smallurl}
+        where id = #{id}
+    </update>
+
+    <select id="getAllGoods" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+    </select>
+
+    <select id="getUpdateCategoryForEs" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+        WHERE ctime >= #{ctime}
+        and category is not null
+        order by ctime
+    </select>
+
+    <select id="getDetailImgUrls" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+        WHERE ctime >= #{ctime}
+        and detailImgUrls is not null
+        order by ctime
+    </select>
+
+    <select id="getUpdateCategoryAndDetailsImgUrlForEs" resultType="Goods">
+        SELECT *
+        FROM tk_goods
+        WHERE ctime >= #{ctime}
+        order by ctime
+    </select>
+
+    <select id="insertSellerToMysql">
+        insert  into  tk_sellers(id,seller_nick,seller_wangwang,insert_time)  values(null,#{sellerNick},#{sellerWang},#{insert_time});
+    </select>
+
+
+    <select id="getTkShopRating" resultType="ShopRating">
+        SELECT *
+        FROM tk_shop_rating order by pid
+    </select>
+
+</mapper>
